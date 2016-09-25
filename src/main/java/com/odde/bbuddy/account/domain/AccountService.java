@@ -25,11 +25,6 @@ public class AccountService {
     }
 
     public List<Account> getList() {
-        List<Account> accounts = new ArrayList<>();
-        Account cashAccount = new Account();
-        cashAccount.setName("Cash");
-        cashAccount.setBalance(100);
-        accounts.add(cashAccount);
-        return accounts;
+        return accountRepository.findAll();
     }
 }

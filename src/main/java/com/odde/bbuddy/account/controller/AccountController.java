@@ -2,6 +2,7 @@ package com.odde.bbuddy.account.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by zbcjackson on 9/25/16.
@@ -12,5 +13,10 @@ public class AccountController {
     @RequestMapping("new")
     public String newAccount(){
         return "account/new";
+    }
+
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    public String createAccount(){
+        return "account/list";
     }
 }

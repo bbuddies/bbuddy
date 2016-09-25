@@ -1,5 +1,7 @@
 package com.odde.bbuddy.account.domain;
 
+import com.odde.bbuddy.account.repo.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,7 +9,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AccountService {
-    public void createAccount(Account account) {
+    private AccountRepository accountRepository;
 
+    @Autowired
+    public AccountService(AccountRepository accountRepository) {
+
+        this.accountRepository = accountRepository;
+    }
+
+    public void createAccount(Account account) {
+        accountRepository.save(account);
     }
 }

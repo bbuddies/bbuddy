@@ -38,12 +38,9 @@ public class AccountController {
 
     @RequestMapping()
     public String list(Model model){
-        List<Account> accounts = new ArrayList<>();
-        Account cashAccount = new Account();
-        cashAccount.setName("Cash");
-        cashAccount.setBalance(100);
-        accounts.add(cashAccount);
-        model.addAttribute("accounts", accounts);
+
+        model.addAttribute("accounts", accountService.getList());
+
         return "account/list";
     }
 }

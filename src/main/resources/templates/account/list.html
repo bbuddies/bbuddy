@@ -7,9 +7,11 @@
     </tr>
     </thead>
     <tbody class="table-hover">
-    <tr>
-        <td class="text-left">Cash</td>
-        <td class="text-left">100</td>
-    </tr>
+    {{#accounts}}
+        <tr>
+            <td class="text-left">{{name}}</td>
+            <td class="text-left">{{balance}}</td>
+        </tr>
+    {{/accounts}}
     </tbody>
 </table>

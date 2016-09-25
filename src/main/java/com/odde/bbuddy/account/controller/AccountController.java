@@ -29,6 +29,11 @@ public class AccountController {
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String createAccount(@ModelAttribute Account account){
         accountService.createAccount(account);
+        return "redirect:/accounts";
+    }
+
+    @RequestMapping()
+    public String list(){
         return "account/list";
     }
 }

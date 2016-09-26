@@ -20,6 +20,11 @@ public class ErrorMessageSteps {
         assertThat(commonPage.getAllText()).containsIgnoringCase(errorMessageWith(field, errorMessages.notEmpty));
     }
 
+    @Then("^there is an error message for blank ([^\"]*)$")
+    public void there_is_an_error_message_for_blank_input(String field) throws Throwable {
+        assertThat(commonPage.getAllText()).containsIgnoringCase(errorMessageWith(field, errorMessages.notBlank));
+    }
+
     @Then("^there is an error message for null ([^\"]*)$")
     public void there_is_an_error_message_for_null_input(String field) throws Throwable {
         assertThat(commonPage.getAllText()).containsIgnoringCase(errorMessageWith(field, errorMessages.notNull));

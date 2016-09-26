@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class AccountControllerTest {
     public void create_account_successfully() throws Exception {
         Account account = dataMother.getAccount();
 
-        controller.createAccount(account);
+        controller.createAccount(account, mock(BindingResult.class));
 
         verify(accounts).createAccount(eq(account), any(Runnable.class), any(Runnable.class));
     }
@@ -35,7 +36,7 @@ public class AccountControllerTest {
     public void create_account_with_blank_name_unsuccessfully() throws Exception {
         Account account = dataMother.getAccountWithBlankName();
 
-        controller.createAccount(account);
+        controller.createAccount(account, mock(BindingResult.class));
 
         verify(accounts, never()).createAccount(account, null, null);
     }
@@ -58,7 +59,7 @@ public class AccountControllerTest {
             return null;
         }).when(accounts).createAccount(eq(dataMother.getAccount()), any(Runnable.class), any(Runnable.class));
 
-        ModelAndView result = controller.createAccount(dataMother.getAccount());
+        ModelAndView result = controller.createAccount(dataMother.getAccount(), mock(BindingResult.class));
 
         assertThat(result.getModel()).containsEntry("errorMessage", "Account exists");
     }

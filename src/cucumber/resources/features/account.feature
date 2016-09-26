@@ -9,7 +9,7 @@ Feature: Account
   @wip
   Scenario: Add account with blank name unsuccessfully
     When add an account with name "" and balance 100
-    Then there is an error message for null name
+    Then there is an error message for blank name
 
   Scenario: account name not duplicate
     Given exists account with name "Cash" and balance 200

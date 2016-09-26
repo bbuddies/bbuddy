@@ -20,6 +20,9 @@ public class ErrorMessages {
     @Value("${javax.validation.constraints.NotNull.message}")
     public String notNull;
 
+    @Value("${org.hibernate.validator.constraints.NotBlank.message}")
+    public String notBlank;
+
     @Value("${typeMismatch.java.util.Date}")
     public String invalidDate;
 

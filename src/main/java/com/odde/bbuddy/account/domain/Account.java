@@ -1,6 +1,7 @@
 package com.odde.bbuddy.account.domain;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ public class Account {
     @Id
     @GeneratedValue
     private int id;
-    @NotNull
+    @NotBlank
     private String name;
     private int balance;
 

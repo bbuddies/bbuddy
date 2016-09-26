@@ -5,6 +5,7 @@ import com.odde.bbuddy.account.domain.Accounts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,14 +37,21 @@ public class AccountController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public ModelAndView createAccount(@ModelAttribute @Valid Account account){
+    public ModelAndView createAccount(
+            @ModelAttribute @Valid Account account,
+            BindingResult bindingResult){
         ModelAndView result = new ModelAndView();
-        accounts.createAccount(account,
-                () -> result.setViewName("redirect:/accounts"),
-                () -> {
-                    result.addObject("errorMessage", "Account exists");
-                    result.setViewName("account/new");
-                });
+        if (bindingResult.hasFieldErrors()) {
+            result.setViewName("account/new");
+        } else {
+            accounts.createAccount(account,
+                    () -> result.setViewName("redirect:/accounts"),
+                    () -> {
+                        result.addObject("errorMessage", "Account exists");
+                        result.setViewName("account/new");
+                    });
+        }
+
         return result;
     }
 

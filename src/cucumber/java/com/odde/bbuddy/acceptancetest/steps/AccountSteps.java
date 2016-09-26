@@ -39,11 +39,6 @@ public class AccountSteps {
                 .contains(String.valueOf(balance));
     }
 
-    @When("^add an account$")
-    public void add_an_account(List<Account> accounts) throws Throwable {
-        accounts.forEach(account -> newAccountPage.addAccount(account.getName(), account.getBalance()));
-    }
-
     @Given("^exists account with name \"([^\"]*)\" and balance (\\d+)$")
     public void exists_account_with_name_and_balance(String name, int balance) throws Throwable {
         newAccountPage.addAccount(name, balance);

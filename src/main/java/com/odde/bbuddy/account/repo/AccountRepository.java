@@ -14,4 +14,5 @@ public interface AccountRepository extends org.springframework.data.repository.R
 
     List<Account> findAll();
     Account findByName(String name);
+    void deleteAll();
 }

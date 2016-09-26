@@ -13,6 +13,7 @@ public interface AccountRepository extends org.springframework.data.repository.R
     void save(Account account);
 
     List<Account> findAll();
-    Account findByName(String name);
     void deleteAll();
+
+    Account findByName(String name);
 }

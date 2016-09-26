@@ -23,9 +23,8 @@ public class AccountsTest {
         Runnable success = mock(Runnable.class);
         Account account = dataMother.getAccount();
 
-        boolean result = service.createAccount(account, success, null);
+        service.createAccount(account, success, null);
 
-        assertThat(result).isEqualTo(true);
         verify(accountRepository).save(account);
         verify(success).run();
     }
@@ -36,10 +35,10 @@ public class AccountsTest {
         Account account = dataMother.getAccount();
         when(accountRepository.findByName(account.getName())).thenReturn(account);
 
-        boolean result = service.createAccount(account, null, failure);
+        service.createAccount(account, null, failure);
 
-        assertThat(result).isEqualTo(false);
         verify(accountRepository, never()).save(account);
+        verify(failure).run();
     }
 
     @Test

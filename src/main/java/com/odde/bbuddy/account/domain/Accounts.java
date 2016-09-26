@@ -19,14 +19,13 @@ public class Accounts {
         this.accountRepository = accountRepository;
     }
 
-    public boolean createAccount(Account account, Runnable success, Runnable failure) {
-        if(accountRepository.findByName(account.getName()) != null){
+    public void createAccount(Account account, Runnable success, Runnable failure) {
+        if(isExisted(account.getName())) {
             failure.run();
-            return false;
+        }else {
+            accountRepository.save(account);
+            success.run();
         }
-        accountRepository.save(account);
-        success.run();
-        return true;
     }
 
     public List<Account> getList() {
@@ -35,6 +34,10 @@ public class Accounts {
 
     public boolean isExisting(Account account) {
         return false;
+    }
+
+    private Boolean isExisted(String name){
+        return accountRepository.findByName(name) != null;
     }
 
 

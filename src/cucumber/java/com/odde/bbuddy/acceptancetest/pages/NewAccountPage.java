@@ -17,4 +17,8 @@ public class NewAccountPage {
         driver.findElementByName("balance").sendKeys(String.valueOf(balance));
         driver.findElementByName("name").submit();
     }
+
+    public String getErrorMessage(){
+        return driver.findElementByName("errMessage").getText();
+    }
 }

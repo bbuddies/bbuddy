@@ -22,7 +22,7 @@ public class AccountControllerTest {
     public void create_account_successfully() throws Exception {
         Account account = dataMother.getAccount();
 
-        controller.createAccount(account);
+        controller.createAccount(account, mock(Model.class));
 
         verify(accounts).createAccount(account);
     }

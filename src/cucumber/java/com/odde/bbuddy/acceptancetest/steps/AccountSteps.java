@@ -2,9 +2,13 @@ package com.odde.bbuddy.acceptancetest.steps;
 
 import com.odde.bbuddy.acceptancetest.pages.CommonPage;
 import com.odde.bbuddy.acceptancetest.pages.NewAccountPage;
+import com.odde.bbuddy.account.domain.Account;
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,4 +34,8 @@ public class AccountSteps {
                 .contains(String.valueOf(balance));
     }
 
+    @When("^add an account$")
+    public void add_an_account(List<Account> accounts) throws Throwable {
+        accounts.forEach(account -> newAccountPage.addAccount(account.getName(), account.getBalance()));
+    }
 }

@@ -8,9 +8,7 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by zbcjackson on 9/25/16.
@@ -27,6 +25,15 @@ public class AccountControllerTest {
         controller.createAccount(account);
 
         verify(accounts).createAccount(account);
+    }
+
+    @Test
+    public void create_account_with_blank_name_unsuccessfully() throws Exception {
+        Account account = dataMother.getAccountWithBlankName();
+
+        controller.createAccount(account);
+
+        verify(accounts, never()).createAccount(account);
     }
 
     @Test

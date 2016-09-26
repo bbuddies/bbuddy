@@ -17,6 +17,13 @@ public class DataMother {
         return account;
     }
 
+    public Account getAccountWithBlankName() {
+        Account account = new Account();
+        account.setName("");
+        account.setBalance(100);
+        return account;
+    }
+
     public List<Account> getAccounts() {
         return asList(getAccount());
     }

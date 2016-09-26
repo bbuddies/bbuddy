@@ -29,6 +29,10 @@ public class AccountController {
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String createAccount(@ModelAttribute Account account){
+        if (account.getName().equals(null) || account.getName().isEmpty()) {
+            return "/account/new";
+        }
+
         accounts.createAccount(account);
         return "redirect:/accounts";
     }

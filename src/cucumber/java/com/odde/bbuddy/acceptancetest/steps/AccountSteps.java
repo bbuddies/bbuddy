@@ -52,7 +52,7 @@ public class AccountSteps {
 
     @Then("^we should see a tip with \"([^\"]*)\"$")
     public void we_should_see_a_tip_with(String message) throws Throwable {
-//        assertThat(accountListPage.getAllText()).contains(message);
+        assertThat(accountListPage.getAllText()).contains(message);
     }
 
     @Then("^\"([^\"]*)\" account only one and its balance (\\d+)$")

@@ -5,6 +5,7 @@ import com.odde.bbuddy.acceptancetest.data.transaction.TransactionRepoForTest;
 import com.odde.bbuddy.acceptancetest.data.budget.MonthlyBudgetRepoForTest;
 import com.odde.bbuddy.acceptancetest.driver.UiDriver;
 import com.odde.bbuddy.acceptancetest.pages.SignInPage;
+import com.odde.bbuddy.account.repo.AccountRepository;
 import com.odde.bbuddy.user.domain.User;
 import com.odde.bbuddy.user.repo.UserRepo;
 import cucumber.api.java.After;
@@ -33,6 +34,9 @@ public class Hooks {
     UserRepo userRepo;
 
     @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
     MonthlyBudgetRepoForTest monthlyBudgetRepo;
 
     @Autowired
@@ -42,6 +46,11 @@ public class Hooks {
     public void signIn(){
         userRepo.save(new User("user", "password"));
         signInPage.signIn("user", "password");
+    }
+
+    @Before("@account")
+    public void cleanUpAccounts() {
+        accountRepository.deleteAll();
     }
 
     @After

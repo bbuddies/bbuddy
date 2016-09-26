@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by zbcjackson on 9/25/16.
@@ -22,11 +20,26 @@ public class AccountsTest {
 
     @Test
     public void create_account_successfully() throws Exception {
+        Runnable success = mock(Runnable.class);
         Account account = dataMother.getAccount();
 
-        service.createAccount(account, null, null);
+        boolean result = service.createAccount(account, success, null);
 
+        assertThat(result).isEqualTo(true);
         verify(accountRepository).save(account);
+        verify(success).run();
+    }
+
+    @Test
+    public void name_duplicated_account_is_not_allowed() throws Exception {
+        Runnable failure = mock(Runnable.class);
+        Account account = dataMother.getAccount();
+        when(accountRepository.findByName(account.getName())).thenReturn(account);
+
+        boolean result = service.createAccount(account, null, failure);
+
+        assertThat(result).isEqualTo(false);
+        verify(accountRepository, never()).save(account);
     }
 
     @Test
@@ -36,6 +49,7 @@ public class AccountsTest {
 
         assertThat(service.getList()).isEqualTo(accounts);
     }
+
 
     private void thereIsAccounts(List<Account> accounts) {
         when(accountRepository.findAll()).thenReturn(accounts);

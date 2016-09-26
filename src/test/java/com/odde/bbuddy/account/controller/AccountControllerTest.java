@@ -53,18 +53,13 @@ public class AccountControllerTest {
 
     @Test
     public void duplicated_account_name() throws Exception {
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(2, Runnable.class).run();
-                return null;
-            }
+        doAnswer(invocation -> {
+            invocation.getArgumentAt(2, Runnable.class).run();
+            return null;
         }).when(accounts).createAccount(eq(dataMother.getAccount()), any(Runnable.class), any(Runnable.class));
-        Model model = mock(Model.class);
 
         ModelAndView result = controller.createAccount(dataMother.getAccount());
 
-//        verify(model).addAttribute("errorMessage", "Account exists");
         assertThat(result.getModel()).containsEntry("errorMessage", "Account exists");
     }
 }

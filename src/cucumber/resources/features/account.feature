@@ -13,5 +13,5 @@ Feature: Account
   Scenario: account name not duplicate
     Given exists account with name "Cash" and balance 200
     When add an account with name "Cash" and balance 100
-    Then we should see a tip with "Cash account exist"
+    Then we should see a tip with "Account exists"
     And "Cash" account only one and its balance 200

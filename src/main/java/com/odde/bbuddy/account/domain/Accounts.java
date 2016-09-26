@@ -20,7 +20,12 @@ public class Accounts {
     }
 
     public boolean createAccount(Account account, Runnable success, Runnable failure) {
+        if(accountRepository.findByName(account.getName()) != null){
+            failure.run();
+            return false;
+        }
         accountRepository.save(account);
+        success.run();
         return true;
     }
 

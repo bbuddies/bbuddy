@@ -4,10 +4,14 @@ import com.odde.bbuddy.account.domain.Account;
 import com.odde.bbuddy.account.domain.Accounts;
 import com.odde.bbuddy.data.DataMother;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 /**
@@ -22,9 +26,9 @@ public class AccountControllerTest {
     public void create_account_successfully() throws Exception {
         Account account = dataMother.getAccount();
 
-        controller.createAccount(account, mock(Model.class));
+        controller.createAccount(account);
 
-        verify(accounts).createAccount(account);
+        verify(accounts).createAccount(eq(account), any(Runnable.class), any(Runnable.class));
     }
 
     @Test
@@ -33,7 +37,7 @@ public class AccountControllerTest {
 
         controller.createAccount(account);
 
-        verify(accounts, never()).createAccount(account);
+        verify(accounts, never()).createAccount(account, null, null);
     }
 
     @Test
@@ -45,7 +49,22 @@ public class AccountControllerTest {
         controller.list(model);
 
         verify(model).addAttribute("accounts", accounts);
-
     }
 
+    @Test
+    public void duplicated_account_name() throws Exception {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                invocation.getArgumentAt(2, Runnable.class).run();
+                return null;
+            }
+        }).when(accounts).createAccount(eq(dataMother.getAccount()), any(Runnable.class), any(Runnable.class));
+        Model model = mock(Model.class);
+
+        ModelAndView result = controller.createAccount(dataMother.getAccount());
+
+//        verify(model).addAttribute("errorMessage", "Account exists");
+        assertThat(result.getModel()).containsEntry("errorMessage", "Account exists");
+    }
 }

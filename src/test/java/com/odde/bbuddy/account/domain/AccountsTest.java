@@ -24,7 +24,7 @@ public class AccountsTest {
     public void create_account_successfully() throws Exception {
         Account account = dataMother.getAccount();
 
-        service.createAccount(account);
+        service.createAccount(account, null, null);
 
         verify(accountRepository).save(account);
     }

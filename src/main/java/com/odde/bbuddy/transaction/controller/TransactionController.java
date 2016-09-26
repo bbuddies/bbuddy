@@ -46,10 +46,12 @@ public class TransactionController {
             @Valid @ModelAttribute Transaction transaction,
             BindingResult result,
             Model model) {
-        if (!result.hasFieldErrors())
+        if (!result.hasFieldErrors()) {
+            Runnable transactionSuccess = thenSetMessage(model, successMessage);
             transactions.add(transaction)
-                    .success(thenSetMessage(model, successMessage))
+                    .success(transactionSuccess)
                     .failed(thenSetMessage(model, failedMessage));
+        }
         return addTransaction(model);
     }
 

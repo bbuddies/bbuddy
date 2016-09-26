@@ -19,12 +19,18 @@ public class Accounts {
         this.accountRepository = accountRepository;
     }
 
-    public void createAccount(Account account) {
+    public boolean createAccount(Account account, Runnable success, Runnable failure) {
         accountRepository.save(account);
+        return true;
     }
 
     public List<Account> getList() {
         return accountRepository.findAll();
     }
+
+    public boolean isExisting(Account account) {
+        return false;
+    }
+
 
 }

@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,29 +36,19 @@ public class AccountController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-<<<<<<< Updated upstream
-    public String createAccount(@ModelAttribute Account account){
-        if (account.getName().equals(null) || account.getName().isEmpty()) {
-            return "/account/new";
-        }
-
-=======
-    public String createAccount(@ModelAttribute Account account, Model model){
-        if(accountList.size()>0 && accountList.get(0).getName()==account.getName()){
-            model.addAttribute("errMessage", "Cash account exist");
-            return "account/new";
-        }
-
-        accountList.add(account);
-
->>>>>>> Stashed changes
-        accounts.createAccount(account);
-        return "redirect:/accounts";
+    public ModelAndView createAccount(@ModelAttribute @Valid Account account){
+        ModelAndView result = new ModelAndView();
+        accounts.createAccount(account,
+                () -> result.setViewName("redirect:/accounts"),
+                () -> {
+                    result.addObject("errorMessage", "Account exists");
+                    result.setViewName("account/new");
+                });
+        return result;
     }
 
     @RequestMapping()
     public String list(Model model){
-
         model.addAttribute("accounts", accounts.getList());
 
         return "account/list";

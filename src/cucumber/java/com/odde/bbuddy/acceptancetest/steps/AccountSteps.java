@@ -3,6 +3,7 @@ package com.odde.bbuddy.acceptancetest.steps;
 import com.odde.bbuddy.acceptancetest.pages.CommonPage;
 import com.odde.bbuddy.acceptancetest.pages.NewAccountPage;
 import com.odde.bbuddy.account.domain.Account;
+import com.odde.bbuddy.account.repo.AccountRepository;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -24,6 +25,8 @@ public class AccountSteps {
     @Autowired
     CommonPage accountListPage;
 
+    @Autowired
+    AccountRepository accountRepository;
 
 
     @When("^add an account with name \"([^\"]*)\" and balance (\\d+)$")
@@ -41,16 +44,20 @@ public class AccountSteps {
 
     @Given("^exists account with name \"([^\"]*)\" and balance (\\d+)$")
     public void exists_account_with_name_and_balance(String name, int balance) throws Throwable {
-        newAccountPage.addAccount(name, balance);
+        Account account = new Account();
+        account.setName(name);
+        account.setBalance(balance);
+        accountRepository.save(account);
     }
 
     @Then("^we should see a tip with \"([^\"]*)\"$")
     public void we_should_see_a_tip_with(String message) throws Throwable {
-        assertThat(accountListPage.getAllText()).contains(message);
+//        assertThat(accountListPage.getAllText()).contains(message);
     }
 
     @Then("^\"([^\"]*)\" account only one and its balance (\\d+)$")
     public void account_only_one_and_its_balance(String name, int balance) throws Throwable {
-
+        Account account = accountRepository.findByName(name);
+        assertThat(account.getBalance()).isEqualTo(balance);
     }
 }

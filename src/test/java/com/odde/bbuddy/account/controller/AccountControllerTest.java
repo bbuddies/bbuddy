@@ -1,15 +1,13 @@
 package com.odde.bbuddy.account.controller;
 
 import com.odde.bbuddy.account.domain.Account;
-import com.odde.bbuddy.account.domain.AccountService;
-import org.apache.xpath.operations.Mod;
+import com.odde.bbuddy.account.domain.Accounts;
+import com.odde.bbuddy.data.DataMother;
 import org.junit.Test;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,35 +16,29 @@ import static org.mockito.Mockito.when;
  * Created by zbcjackson on 9/25/16.
  */
 public class AccountControllerTest {
+    private final DataMother dataMother = new DataMother();
+    Accounts accounts = mock(Accounts.class);
+        AccountController controller = new AccountController(accounts);
 
     @Test
     public void create_account_successfully() throws Exception {
-        AccountService accountService = mock(AccountService.class);
-        AccountController controller = new AccountController(accountService);
-        Account account = new Account();
-        account.setName("Cash");
-        account.setBalance(100);
+        Account account = dataMother.getAccount();
 
         controller.createAccount(account);
 
-        verify(accountService).createAccount(account);
+        verify(accounts).createAccount(account);
     }
 
     @Test
     public void display_account_list() {
         Model model = mock(Model.class);
-        AccountService accountService = mock(AccountService.class);
-        List<Account> accounts = new ArrayList<>();
-        Account cashAccount = new Account();
-        cashAccount.setName("Cash");
-        cashAccount.setBalance(100);
-        accounts.add(cashAccount);
-        when(accountService.getList()).thenReturn(accounts);
-        AccountController controller = new AccountController(accountService);
+        List<Account> accounts = dataMother.getAccounts();
+        when(this.accounts.getList()).thenReturn(accounts);
 
         controller.list(model);
 
         verify(model).addAttribute("accounts", accounts);
 
     }
+
 }

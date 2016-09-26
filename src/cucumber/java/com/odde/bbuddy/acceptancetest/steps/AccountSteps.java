@@ -1,14 +1,10 @@
 package com.odde.bbuddy.acceptancetest.steps;
 
-import com.odde.bbuddy.acceptancetest.driver.UiDriver;
 import com.odde.bbuddy.acceptancetest.pages.CommonPage;
-import com.odde.bbuddy.acceptancetest.pages.SignInPage;
-import com.odde.bbuddy.user.domain.User;
-import com.odde.bbuddy.user.repo.UserRepo;
+import com.odde.bbuddy.acceptancetest.pages.NewAccountPage;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.security.util.PendingException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,22 +13,21 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class AccountSteps {
     @Autowired
-    UiDriver driver;
+    NewAccountPage newAccountPage;
 
     @Autowired
-    CommonPage accountList;
+    CommonPage accountListPage;
 
     @When("^add an account with name \"([^\"]*)\" and balance (\\d+)$")
     public void add_an_account_with_name_and_balance(String name, int balance) throws Throwable {
-        driver.navigateTo("/accounts/new");
-        driver.findElementByName("name").sendKeys(name);
-        driver.findElementByName("balance").sendKeys(String.valueOf(balance));
-        driver.findElementByName("name").submit();
+        newAccountPage.addAccount(name, balance);
     }
 
     @Then("^I have an account with name \"([^\"]*)\" and balance (\\d+)$")
-    public void i_have_an_account_with_name_and_balance(String arg1, int arg2) throws Throwable {
-        assertThat(accountList.getAllText()).contains(arg1).contains(String.valueOf(arg2));
+    public void i_have_an_account_with_name_and_balance(String name, int balance) throws Throwable {
+        assertThat(accountListPage.getAllText())
+                .contains(name)
+                .contains(String.valueOf(balance));
     }
 
 }
